@@ -6,10 +6,11 @@ public class Worker {
 
 	String name;
 	Double salary;
+	Set<Qualification> qs;
 	
 	public Worker(String name, Set<Qualification> qs){
-		
-		
+		this.name = name;
+		this.qs = qs;		
 	}
 	
 	public String getName(){
@@ -25,7 +26,7 @@ public class Worker {
 	}
 	
 	public Set<Qualification> getQualifications(){
-		
+		return qs;
 	}
 	
 	public void addQualification(Qualification q){
@@ -63,11 +64,11 @@ public class Worker {
 	
 	@Override
 	public String toString(){
-		
+		return null;
 	}
 	
 	public boolean willOverload(Project p){
-		
+		return false;
 	}
 	
 	

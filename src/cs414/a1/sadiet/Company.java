@@ -1,21 +1,34 @@
 package cs414.a1.sadiet;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Company {
 	
 	private String name;
-	private HashSet<Worker> workers;
-	private ArrayList<Project> projects;
+	private Set<Worker> availableWorkers;
+	private Set<Worker> assignedWorkers;
+	private Set<Worker> unassignedWorkers;
+	private Set<Project> projects;
 	
 	public Company(String name){
 		this.name = name;
+		availableWorkers = new HashSet<Worker>();
+		assignedWorkers = new HashSet<Worker>();
+		unassignedWorkers = new HashSet<Worker>();
+		projects = new HashSet<Project>();
 	}
 	
 	public String getName(){
 		return name;
+	}
+	
+	public boolean checkProject(Project p){
+		return projects.contains(p);
+	}
+	
+	public boolean checkWorker(Worker w){
+		return availableWorkers.contains(w);
 	}
 	
 	@Override
@@ -48,24 +61,24 @@ public class Company {
 	}
 	
 	public Set<Worker> getAvailableWorkers(){
-		
+		return availableWorkers;
 	}
 	
 	public Set<Worker> getAssignedWorkers(){
-		
+		return assignedWorkers;
 	}
 	
 	public Set<Worker> getUnassignedWorkers(){
-		
+		return unassignedWorkers;
 	}
 	
 	@Override
 	public String toString(){
-		
+		return null;
 	}
 	
 	public void addToAvailableWorkerPool(Worker w){
-		
+		availableWorkers.add(w);
 	}
 	
 	public void assign(Worker w, Project p){
@@ -90,6 +103,15 @@ public class Company {
 	
 	public Project createProject(String n, Set<Qualification> qs, ProjectSize size, ProjectStatus status){
 		
+		//per program instructions and discussion board, I set the status to PLANNED no matter what is passed
+		Project p = new Project(n, size, ProjectStatus.PLANNED);
+		projects.add(p);
+		
+		for(Qualification q : qs){
+			p.addQualification(q);
+		}
+		
+		return p;
 	}
 	
 	
