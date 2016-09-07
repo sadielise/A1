@@ -110,5 +110,9 @@ public class Worker {
 		}
 	}
 	
+	public Set<Project> getProjects(){
+		return ps;
+	}
+	
 	
 }

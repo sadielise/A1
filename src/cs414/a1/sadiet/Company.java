@@ -23,12 +23,16 @@ public class Company {
 		return name;
 	}
 	
-	public boolean checkProject(Project p){
-		return projects.contains(p);
+	public Set<Worker> getAvailableWorkers(){
+		return availableWorkers;
 	}
 	
-	public boolean checkWorker(Worker w){
-		return availableWorkers.contains(w);
+	public Set<Worker> getAssignedWorkers(){
+		return assignedWorkers;
+	}
+	
+	public Set<Worker> getUnassignedWorkers(){
+		return unassignedWorkers;
 	}
 	
 	@Override
@@ -60,21 +64,9 @@ public class Company {
 		return result;		
 	}
 	
-	public Set<Worker> getAvailableWorkers(){
-		return availableWorkers;
-	}
-	
-	public Set<Worker> getAssignedWorkers(){
-		return assignedWorkers;
-	}
-	
-	public Set<Worker> getUnassignedWorkers(){
-		return unassignedWorkers;
-	}
-	
 	@Override
 	public String toString(){
-		return null;
+		return name + ":" + availableWorkers.size() + ":" + projects.size();
 	}
 	
 	public void addToAvailableWorkerPool(Worker w){
@@ -82,23 +74,55 @@ public class Company {
 	}
 	
 	public void assign(Worker w, Project p){
-		
+		if(availableWorkers.contains(w) && (p.checkWorker(w) == false)){
+			if((p.getStatus() != ProjectStatus.ACTIVE) && (p.getStatus() != ProjectStatus.FINISHED)){
+				if((w.willOverload(p) == false) && (p.isHelpful(w) == true)){
+					if(!(assignedWorkers.contains(w))){
+						assignedWorkers.add(w);
+						p.addWorker(w);
+						w.addProject(p);
+					}
+				}
+			}
+		}
 	}
 	
 	public void unassign(Worker w, Project p){
-		
+		if(p.checkWorker(w) == true){
+			p.removeWorker(w);
+			w.removeProject(p);
+			if(p.missingQualifications().size() > 0){
+				p.setStatus(ProjectStatus.SUSPENDED);
+			}
+			if(w.getProjects().size() == 1){
+				assignedWorkers.remove(w);
+			}
+		}
 	}
 	
 	public void unassignAll(Worker w){
-		
+		Set<Project> psTemp = w.getProjects();
+		for(Project pTemp : psTemp){
+			unassign(w, pTemp);
+		}
 	}
 	
 	public void start(Project p){
-
+		if((p.getStatus() == ProjectStatus.PLANNED) || (p.getStatus() == ProjectStatus.SUSPENDED)){
+			if(p.missingQualifications().size() == 0){
+				p.setStatus(ProjectStatus.ACTIVE);
+			}
+		}
 	}
 	
 	public void finish(Project p){
-		
+		if(p.getStatus() == ProjectStatus.ACTIVE){
+			p.setStatus(ProjectStatus.FINISHED);
+			Set<Worker> wsTemp = p.getWorkers();
+			for(Worker wTemp1 : wsTemp){
+				unassign(wTemp1, p);
+			}			
+		}
 	}
 	
 	public Project createProject(String n, Set<Qualification> qs, ProjectSize size, ProjectStatus status){
@@ -114,5 +138,11 @@ public class Company {
 		return p;
 	}
 	
+	public boolean checkProject(Project p){
+		return projects.contains(p);
+	}
 	
+	public boolean checkWorker(Worker w){
+		return availableWorkers.contains(w);
+	}		
 }

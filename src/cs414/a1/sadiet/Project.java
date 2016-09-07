@@ -54,6 +54,17 @@ public class Project {
 			ws.remove(w);
 		}
 	}
+	
+	public boolean checkWorker(Worker w){
+		if(ws.contains(w)){
+			return true;
+		}
+		return false;
+	}
+	
+	public Set<Worker> getWorkers(){
+		return ws;
+	}
 
 	@Override
 	public boolean equals(Object obj){
