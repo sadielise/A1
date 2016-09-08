@@ -109,13 +109,42 @@ public class WorkerTest {
 
 	@Test
 	public void testWillOverload2(){
-		Project p1 = new Project("p1", ProjectSize.BIG, ProjectStatus.ACTIVE);
-		Project p2 = new Project("p2", ProjectSize.BIG, ProjectStatus.ACTIVE);
-		Project p3 = new Project("p3", ProjectSize.BIG, ProjectStatus.ACTIVE);
-		Project p4 = new Project("p4", ProjectSize.SMALL, ProjectStatus.ACTIVE);
-		w.addProject(p1);
-		w.addProject(p2);
-		w.addProject(p3);
-		assertTrue(w.willOverload(p4));
+		Project pTemp1 = new Project("p1", ProjectSize.BIG, ProjectStatus.ACTIVE);
+		Project pTemp2 = new Project("p2", ProjectSize.BIG, ProjectStatus.ACTIVE);
+		Project pTemp3 = new Project("p3", ProjectSize.BIG, ProjectStatus.ACTIVE);
+		Project pTemp4 = new Project("p4", ProjectSize.SMALL, ProjectStatus.ACTIVE);
+		w.addProject(pTemp1);
+		w.addProject(pTemp2);
+		w.addProject(pTemp3);
+		assertTrue(w.willOverload(pTemp4));
+	}
+	
+	@Test
+	public void testAddProject(){
+		Project pTemp = new Project("p1", ProjectSize.BIG, ProjectStatus.ACTIVE);
+		w.addProject(pTemp);
+		assertTrue(w.getProjects().contains(pTemp));
+	}
+	
+	@Test
+	public void testRemoveProject(){
+		Project pTemp = new Project("p1", ProjectSize.BIG, ProjectStatus.ACTIVE);
+		w.addProject(pTemp);
+		w.removeProject(pTemp);
+		assertFalse(w.getProjects().contains(pTemp));
+	}
+	
+	@Test
+	public void testGetProjects(){
+		Project pTemp1 = new Project("p1", ProjectSize.BIG, ProjectStatus.ACTIVE);
+		Project pTemp2 = new Project("p2", ProjectSize.BIG, ProjectStatus.ACTIVE);
+		w.addProject(pTemp1);
+		w.addProject(pTemp2);
+		boolean correct = true;
+		if(w.getProjects().size() != 3){	correct = false;	}
+		if(!(w.getProjects().contains(p))){	correct = false;	}
+		if(!(w.getProjects().contains(pTemp1))){	correct = false;	}
+		if(!(w.getProjects().contains(pTemp2))){	correct = false;	}
+		assertTrue(correct);
 	}
 }

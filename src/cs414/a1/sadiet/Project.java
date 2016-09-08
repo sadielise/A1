@@ -38,11 +38,9 @@ public class Project {
 	public void addQualification(Qualification q){
 		qs.add(q);
 	}
-
-	public void removeQualification(Qualification q){
-		if(qs.contains(q)){
-			qs.remove(q);
-		}
+	
+	public Set<Qualification> getQualifications(){
+		return qs;
 	}
 
 	public void addWorker(Worker w){

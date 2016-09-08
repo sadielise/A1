@@ -93,9 +93,84 @@ public class ProjectTest {
 	}
 	
 	@Test
-	public void testSetStatus(){
+	public void testSetStatus1(){
 		p1.setStatus(ProjectStatus.FINISHED);
 		assertEquals(p1.getStatus(), ProjectStatus.FINISHED);
+	}
+	
+	@Test
+	public void testSetStatus2(){
+		p1.setStatus(ProjectStatus.PLANNED);
+		assertEquals(p1.getStatus(), ProjectStatus.PLANNED);
+	}
+	
+	@Test
+	public void testSetStatus3(){
+		p1.setStatus(ProjectStatus.SUSPENDED);
+		assertEquals(p1.getStatus(), ProjectStatus.SUSPENDED);
+	}
+	
+	@Test
+	public void testSetStatus4(){
+		p1.setStatus(ProjectStatus.ACTIVE);
+		assertEquals(p1.getStatus(), ProjectStatus.ACTIVE);
+	}
+	
+	@Test
+	public void testAddQualification(){
+		p1.addQualification(q1);
+		assertTrue(p1.getQualifications().contains(q1));
+	}
+	
+	@Test
+	public void testGetQualifications(){
+		p1.addQualification(q1);
+		p1.addQualification(q2);
+		boolean correct = true;
+		if(p1.getQualifications().size() != 2){	correct = false;	}
+		if(!(p1.getQualifications().contains(q1))){	correct = false;	}
+		if(!(p1.getQualifications().contains(q2))){	correct = false;	}
+		assertTrue(correct);		
+	}
+	
+	@Test
+	public void testAddWorker(){
+		p1.addWorker(w1);
+		assertTrue(p1.checkWorker(w1));
+	}
+	
+	@Test
+	public void testRemoveWorker(){
+		p1.addWorker(w1);
+		p1.removeWorker(w1);
+		assertFalse(p1.checkWorker(w1));
+	}
+	
+	@Test
+	public void testCheckWorker1(){
+		assertFalse(p1.checkWorker(w2));
+	}
+	
+	@Test
+	public void testCheckWorker2(){
+		p1.addWorker(w2);
+		assertTrue(p1.checkWorker(w2));
+	}
+	
+	@Test
+	public void testGetWorkers1(){
+		assertTrue(p1.getWorkers().size() == 0);
+	}
+	
+	@Test
+	public void testGetWorkers2(){
+		p1.addWorker(w1);
+		p1.addWorker(w2);
+		boolean correct = true;
+		if(p1.getWorkers().size() != 2){	correct = false;	}
+		if(!(p1.getWorkers().contains(w1))){	correct = false;	}
+		if(!(p1.getWorkers().contains(w2))){	correct = false;	}
+		assertTrue(correct);
 	}
 	
 	@Test

@@ -1,0 +1,9 @@
+CS414 A1 Overview
+
+Overall, I was able to follow the test-driven development approach for
+this assignment. I tried to start by testing the Company class, but found
+that not having tested or built the other classes first made that challenging
+since Company heavily depends on the rest of the classes. So, I tested then 
+implemented the classes in the following order: Qualification, Project,
+Worker, and Company. This allowed me to get an in-depth understanding of how
+each class worked and how the classes interacted. 
